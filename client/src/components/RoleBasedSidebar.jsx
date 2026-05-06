@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Activity, PieChart, Users, Settings } from 'lucide-react';
+import { Home, Activity, PieChart, Users, Settings, Dumbbell, ClipboardList, ShieldAlert } from 'lucide-react';
 import { clsx } from 'clsx';
 
 const RoleBasedSidebar = () => {
@@ -9,10 +9,19 @@ const RoleBasedSidebar = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: 'Dashboard', path: '/', icon: Home, roles: ['member', 'trainer', 'admin'] },
+    { name: 'Dashboard', path: '/', icon: Home, roles: ['member'] },
     { name: 'Workout Logger', path: '/logger', icon: Activity, roles: ['member'] },
     { name: 'Analytics', path: '/analytics', icon: PieChart, roles: ['member', 'trainer', 'admin'] },
-    { name: 'Clients', path: '/clients', icon: Users, roles: ['trainer', 'admin'] },
+    { name: 'Exercises Library', path: '/exercises', icon: Dumbbell, roles: ['member', 'trainer', 'admin'] },
+    
+    // Trainer Routes
+    { name: 'Trainer Dashboard', path: '/trainer', icon: Users, roles: ['trainer', 'admin'] },
+    { name: 'Plan Builder', path: '/trainer/plan-builder', icon: ClipboardList, roles: ['trainer', 'admin'] },
+    
+    // Admin Routes
+    { name: 'Admin Dashboard', path: '/admin', icon: ShieldAlert, roles: ['admin'] },
+    { name: 'Manage Users', path: '/admin/users', icon: Users, roles: ['admin'] },
+
     { name: 'Settings', path: '/settings', icon: Settings, roles: ['member', 'trainer', 'admin'] },
   ];
 

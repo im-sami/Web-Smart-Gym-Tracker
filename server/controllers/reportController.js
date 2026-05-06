@@ -1,4 +1,5 @@
 import WorkoutLog from '../models/WorkoutLog.js';
+import User from '../models/User.js';
 import mongoose from 'mongoose';
 
 export const getMemberReport = async (req, res) => {
@@ -51,6 +52,32 @@ export const getMemberReport = async (req, res) => {
     });
 
     res.json({ success: true, data: formattedData });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message, statusCode: 500 });
+  }
+};
+
+export const getSystemReport = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const totalTrainers = await User.countDocuments({ role: 'trainer' });
+    const totalMembers = await User.countDocuments({ role: 'member' });
+    const totalAdmins = await User.countDocuments({ role: 'admin' });
+
+    const recentWorkouts = await WorkoutLog.countDocuments({
+      date: { $gte: new Date(new Date() - 7 * 24 * 60 * 60 * 1000) }
+    });
+
+    res.json({
+      success: true,
+      data: {
+        totalUsers,
+        totalTrainers,
+        totalMembers,
+        totalAdmins,
+        recentWorkouts
+      }
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message, statusCode: 500 });
   }

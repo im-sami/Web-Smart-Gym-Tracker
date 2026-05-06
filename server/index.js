@@ -8,6 +8,9 @@ import authRoutes from './routes/authRoutes.js';
 import workoutRoutes from './routes/workoutRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import edamamRoutes from './routes/edamamRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import exerciseRoutes from './routes/exerciseRoutes.js';
+import workoutPlanRoutes from './routes/workoutPlanRoutes.js';
 
 dotenv.config();
 
@@ -22,6 +25,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/workout-logs', workoutRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/edamam', edamamRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/exercises', exerciseRoutes);
+app.use('/api/workout-plans', workoutPlanRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
