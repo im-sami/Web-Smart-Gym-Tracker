@@ -49,11 +49,14 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      if (role && user.role !== role) {
+        return res.status(401).json({ success: false, error: 'Selected role does not match user account', statusCode: 401 });
+      }
       res.json({
         success: true,
         data: {

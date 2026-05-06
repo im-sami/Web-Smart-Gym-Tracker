@@ -28,8 +28,8 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, [jwtToken]);
 
-  const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
+  const login = async (email, password, role) => {
+    const res = await api.post('/auth/login', { email, password, role });
     const { token, ...user } = res.data.data;
     localStorage.setItem('token', token);
     setJwtToken(token);
@@ -38,8 +38,8 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
-  const register = async (name, email, password) => {
-    const res = await api.post('/auth/register', { name, email, password });
+  const register = async (name, email, password, role) => {
+    const res = await api.post('/auth/register', { name, email, password, role });
     const { token, ...user } = res.data.data;
     localStorage.setItem('token', token);
     setJwtToken(token);
