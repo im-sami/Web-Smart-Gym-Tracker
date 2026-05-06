@@ -48,6 +48,18 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
+  const updateProfile = async (userData) => {
+    const res = await api.put('/auth/me', userData);
+    const { token, ...user } = res.data.data;
+    if (token) {
+      localStorage.setItem('token', token);
+      setJwtToken(token);
+    }
+    setCurrentUser(user);
+    setRole(user.role);
+    return res.data;
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     setJwtToken(null);
@@ -56,7 +68,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, jwtToken, role, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ currentUser, jwtToken, role, login, register, logout, updateProfile, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

@@ -11,6 +11,7 @@ import WorkoutPlanBuilder from './pages/WorkoutPlanBuilder';
 import AdminDashboard from './pages/AdminDashboard';
 import UsersTable from './pages/UsersTable';
 import ExerciseLibrary from './pages/ExerciseLibrary';
+import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
@@ -37,7 +38,7 @@ const App = () => {
         <Route path="admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
         <Route path="admin/users" element={<ProtectedRoute allowedRoles={['admin']}><UsersTable /></ProtectedRoute>} />
 
-        <Route path="settings" element={<div className="p-8 text-center text-gray-500">Settings Page (Coming Soon in Phase 2)</div>} />
+        <Route path="settings" element={<ProtectedRoute allowedRoles={['member', 'trainer', 'admin']}><Settings /></ProtectedRoute>} />
         <Route path="clients" element={<div className="p-8 text-center text-gray-500">Clients Page (Coming Soon in Phase 2)</div>} />
       </Route>
     </Routes>

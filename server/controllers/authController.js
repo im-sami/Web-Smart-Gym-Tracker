@@ -83,3 +83,36 @@ export const getMe = async (req, res) => {
     res.status(500).json({ success: false, error: error.message, statusCode: 500 });
   }
 };
+
+export const updateMe = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found', statusCode: 404 });
+    }
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+
+    await user.save();
+
+    res.json({
+      success: true,
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id),
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message, statusCode: 500 });
+  }
+};
